@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+      - run: go test ./...
+      - name: Build static binaries
+        run: |
+          mkdir dist
+          for arch in amd64 arm64; do
+            CGO_ENABLED=0 GOOS=linux GOARCH=$arch go build -trimpath \
+              -ldflags "-s -w -X main.version=${GITHUB_REF_NAME}" \
+              -o "dist/gamepad-desktop-linux-$arch" ./cmd/gamepad-desktop
+          done
+      - name: Build packages
+        run: |
+          go install github.com/goreleaser/nfpm/v2/cmd/nfpm@v2.47.0
+          mkdir build
+          for arch in amd64 arm64; do
+            cp "dist/gamepad-desktop-linux-$arch" build/gamepad-desktop
+            for packager in deb rpm archlinux; do
+              VERSION="$GITHUB_REF_NAME" ARCH=$arch \
+                nfpm pkg -f packaging/nfpm.yaml -p $packager -t dist/
+            done
+          done
+      - name: Checksums
+        run: |
+          cp contrib/70-gamepad-desktop.rules contrib/gamepad-desktop.service dist/
+          (cd dist && sha256sum * > SHA256SUMS)
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes dist/*
