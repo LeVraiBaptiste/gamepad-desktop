@@ -1,0 +1,8 @@
+{
+  "uuid": "gamepad-desktop@levraibaptiste.github.io",
+  "name": "gamepad-desktop",
+  "description": "Tells gamepad-desktop which application has the focus, so it can apply per-application gamepad mappings. Read-only: exposes the class of the focused window over D-Bus, nothing else.",
+  "url": "https://github.com/LeVraiBaptiste/gamepad-desktop",
+  "shell-version": ["45", "46", "47", "48", "49", "50"],
+  "version": 1
+}
