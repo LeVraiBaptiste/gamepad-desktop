@@ -1,2 +1,4 @@
 github.com/holoplot/go-evdev v0.0.0-20260909133534-d873ed210bda h1:/5a6e/KLg8R+KhKxK+ze8CPBumoJQwN64KSHksirun0=
 github.com/holoplot/go-evdev v0.0.0-20260909133534-d873ed210bda/go.mod h1:iHAf8OIncO2gcQ8XOjS7CMJ2aPbX2Bs0wl5pZyanEqk=
+golang.org/x/sys v0.27.0 h1:wBqf8DvsY9Y/2P8gAfPDEYNuS30J4lPHJxXSb/nJZ+s=
+golang.org/x/sys v0.27.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
