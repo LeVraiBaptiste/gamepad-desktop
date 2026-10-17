@@ -1,0 +1,43 @@
+# gamepad-desktop configuration.
+#
+# Inputs:  BTN_SOUTH, BTN_EAST, BTN_NORTH, BTN_WEST (or BTN_A/B/X/Y), BTN_TL, BTN_TR,
+#          BTN_TL2/BTN_TR2 (triggers), BTN_SELECT, BTN_START, BTN_MODE,
+#          BTN_THUMBL, BTN_THUMBR, DPAD_UP/DOWN/LEFT/RIGHT, LSTICK, RSTICK.
+#          Run with --verbose to see the names your gamepad reports.
+# Actions: a key (KEY_ prefix optional, case-insensitive, ctrl/shift/alt/super aliases),
+#          a chord "ctrl+t" held while the button is, a sequence "ctrl+b, k",
+#          a mouse button (BTN_LEFT/RIGHT/MIDDLE/SIDE/EXTRA),
+#          or one of: cursor, scroll (sticks only), alt-tab, pause, none.
+# Combos:  "BTN_SELECT+BTN_START" = "pause" fires when the last button is pressed
+#          while the others are held. That last button's own action is skipped,
+#          but the earlier ones have already done theirs: leave them unmapped.
+# alt-tab: hold to keep Alt down; the d-pad moves in the switcher (right/down
+#          next, left/up previous); release to switch.
+# pause:   releases the gamepad for games (no more grab, nothing emitted)
+#          until the same action is used again.
+
+[settings]
+deadzone          = 0.15   # stick dead zone, fraction of full deflection
+sensitivity       = 1200   # cursor speed, px/s at full deflection
+curve             = 2.0    # stick response, 1 = linear
+scroll_speed      = 15     # wheel notches/s at full deflection
+trigger_threshold = 0.5    # trigger travel at which BTN_TL2/BTN_TR2 press
+sequence_delay_ms = 15     # pause between the steps of a sequence
+
+[default]
+BTN_SOUTH = "BTN_LEFT"
+BTN_EAST  = "BTN_RIGHT"
+RSTICK    = "cursor"
+LSTICK    = "scroll"
+BTN_TR    = "alt-tab"
+"BTN_SELECT+BTN_START" = "pause"
+
+# [app.<wm_class>] inherits [default] and only overrides what it redefines.
+# Quote names containing dots: [app."org.gnome.Nautilus"]
+[app.zen]
+BTN_NORTH = "KEY_LEFTCTRL+KEY_T"
+BTN_TL    = "KEY_LEFTCTRL+KEY_PAGEUP"
+BTN_WEST  = "KEY_LEFTCTRL+KEY_PAGEDOWN"
+
+[app.kitty]
+DPAD_UP   = "KEY_LEFTCTRL+KEY_B, KEY_K"   # sequence: tmux prefix, then k

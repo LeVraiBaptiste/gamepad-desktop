@@ -1,0 +1,17 @@
+# Built-in configuration, used when no config file is found.
+
+[default]
+BTN_SOUTH = "BTN_LEFT"
+BTN_EAST  = "BTN_RIGHT"
+BTN_THUMBR = "BTN_MIDDLE"
+RSTICK    = "cursor"
+LSTICK    = "scroll"
+BTN_TR    = "alt-tab"
+BTN_START = "KEY_ENTER"
+# Back then Start: hand the gamepad over to games, and back. BTN_SELECT is
+# left unmapped because the first button of a combo still does its own action.
+"BTN_SELECT+BTN_START" = "pause"
+DPAD_UP    = "KEY_UP"
+DPAD_DOWN  = "KEY_DOWN"
+DPAD_LEFT  = "KEY_LEFT"
+DPAD_RIGHT = "KEY_RIGHT"
