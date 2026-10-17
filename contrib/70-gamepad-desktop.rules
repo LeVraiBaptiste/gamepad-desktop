@@ -1,0 +1,11 @@
+# Permissions for gamepad-desktop. Install in /etc/udev/rules.d/ (the number
+# must stay below 73 so systemd-logind applies "uaccess").
+#
+# "uaccess" gives the user of the active local session access to the device
+# through an ACL. Access to /dev/uinput lets that user inject keyboard and
+# mouse input, which is what gamepad-desktop needs.
+
+# Virtual keyboard and mouse.
+KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
+# Gamepads (systemd already does this on most setups; kept explicit).
+SUBSYSTEM=="input", ENV{ID_INPUT_JOYSTICK}=="?*", TAG+="uaccess"
