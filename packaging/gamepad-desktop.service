@@ -1,0 +1,17 @@
+# systemd user unit installed by the packages. Enable it with:
+#   systemctl --user enable --now gamepad-desktop
+[Unit]
+Description=Gamepad to keyboard and mouse mapper
+Documentation=https://github.com/LeVraiBaptiste/gamepad-desktop
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/gamepad-desktop --enable-extension
+Restart=on-failure
+RestartSec=3
+MemoryMax=64M
+NoNewPrivileges=true
+
+[Install]
+WantedBy=graphical-session.target

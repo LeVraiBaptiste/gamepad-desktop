@@ -1,0 +1,41 @@
+# Builds .deb, .rpm and Arch packages from a release binary:
+#   VERSION=v0.1.0 ARCH=amd64 nfpm pkg -f packaging/nfpm.yaml -p deb -t dist/
+# Paths are relative to the repository root. Expects the binary for $ARCH in
+# build/gamepad-desktop (nfpm does not expand variables in src paths).
+name: gamepad-desktop
+arch: ${ARCH}
+platform: linux
+version: ${VERSION}
+maintainer: LeVraiBaptiste <71510862+LeVraiBaptiste@users.noreply.github.com>
+description: |
+  Use a gamepad as keyboard and mouse, with per-application mappings,
+  on GNOME Wayland.
+homepage: https://github.com/LeVraiBaptiste/gamepad-desktop
+license: GPL-3.0-or-later
+section: utils
+
+contents:
+  - src: build/gamepad-desktop
+    dst: /usr/bin/gamepad-desktop
+    file_info:
+      mode: 0755
+  - src: contrib/70-gamepad-desktop.rules
+    dst: /usr/lib/udev/rules.d/70-gamepad-desktop.rules
+  - src: packaging/modules-load.conf
+    dst: /usr/lib/modules-load.d/gamepad-desktop.conf
+  - src: packaging/gamepad-desktop.service
+    dst: /usr/lib/systemd/user/gamepad-desktop.service
+  # Installed system-wide; the service enables it for the user with
+  # --enable-extension.
+  - src: internal/gnomeext/metadata.json
+    dst: /usr/share/gnome-shell/extensions/gamepad-desktop@levraibaptiste.github.io/metadata.json
+  - src: internal/gnomeext/extension.js
+    dst: /usr/share/gnome-shell/extensions/gamepad-desktop@levraibaptiste.github.io/extension.js
+  - src: examples/config.toml
+    dst: /usr/share/doc/gamepad-desktop/config.toml.example
+  - src: LICENSE
+    dst: /usr/share/licenses/gamepad-desktop/LICENSE
+
+scripts:
+  postinstall: packaging/postinstall.sh
+  postremove: packaging/postremove.sh
